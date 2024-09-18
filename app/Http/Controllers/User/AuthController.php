@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\User\LoginRequest;
+use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -23,5 +25,34 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'ログインしました。'
         ]);
-}
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $existsName  = User::where('name', $request->name)->exists();
+        $existsEmail = User::where('email', $request->email)->exists();
+
+        if ($existsName) {
+            return response()->json([
+                'message' => '名前がすでに登録されています。'
+            ]);
+        }
+
+        if ($existsEmail) {
+            return response()->json([
+                'message' => 'メールアドレスがすでに登録されています。'
+            ]);
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'message' => 'ユーザ登録が完了しました。',
+        ]);
+        
+    }
 }
