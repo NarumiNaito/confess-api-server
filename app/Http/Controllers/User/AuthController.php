@@ -30,6 +30,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        // dd("test");
         $existsName  = User::where('name', $request->name)->exists();
         $existsEmail = User::where('email', $request->email)->exists();
 
