@@ -30,6 +30,7 @@ class RegisterTest extends TestCase
 
         $response = $this->post(route('register'), [
               'name' => $user->name,
+              'email' => 'test@example.com',
               'password' => 'password',
           ]);
 
@@ -43,6 +44,7 @@ class RegisterTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->post(route('register'), [
+              'name' => 'test',
               'email' => $user->email,
               'password' => 'password',
           ]);
