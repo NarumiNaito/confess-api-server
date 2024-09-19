@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\User\LoginRequest;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -55,4 +56,15 @@ class AuthController extends Controller
         ]);
         
     }
-}
+
+    public function logout(Request $request)
+    {
+        Auth::guard('user')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json([
+            'message' => 'ログアウトしました。',
+        ]);
+    }
+}       
