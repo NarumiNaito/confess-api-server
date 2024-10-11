@@ -18,7 +18,7 @@ class LogoutTest extends TestCase
         $this->actingAs($user, 'user');
 
         $response = $this->withHeaders(['referer' => 'http://localhost:3000'])
-          ->post(route('logout'));
+            ->post(route('logout'));
 
         $response->assertStatus(200)->assertJson([
             'message' => 'ログアウトしました。'
