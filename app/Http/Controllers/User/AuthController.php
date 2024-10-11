@@ -31,26 +31,30 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         // dd("test");
-        $existsName  = User::where('name', $request->name)->exists();
+        // $existsName  = User::where('name', $request->name)->exists();
         $existsEmail = User::where('email', $request->email)->exists();
 
-        if ($existsName) {
-            return response()->json([
-                'message' => '名前がすでに登録されています。'
-            ]);
-        }
+        // if ($existsName) {
+        //     return response()->json([
+        //         'message' => '名前がすでに登録されています。'
+        //     ],409
+        // );
+        // }
 
         if ($existsEmail) {
             return response()->json([
                 'message' => 'メールアドレスがすでに登録されています。'
-            ]);
+            ],410
+        );
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        Auth::guard('user')->login($user);
 
         return response()->json([
             'message' => 'ユーザ登録が完了しました。',
