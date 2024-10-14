@@ -28,15 +28,15 @@ class CategorySeeder extends Seeder
                 ],
                 [
                 'id' => 4,
-                'category_name' => Category::CATEGORY_NAMES[0]
+                'category_name' => Category::CATEGORY_NAMES[3]
                 ],
                 [
                 'id' => 5,
-                'category_name' => Category::CATEGORY_NAMES[1]
+                'category_name' => Category::CATEGORY_NAMES[4]
                 ],
                 [
                 'id' => 6,
-                'category_name' => Category::CATEGORY_NAMES[2]
+                'category_name' => Category::CATEGORY_NAMES[5]
                 ]
             ];
 

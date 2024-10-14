@@ -22,6 +22,7 @@ Route::middleware('auth:user')->group(function () {
 
 Route::prefix('/posts')->name('post.')->group(function() {
     Route::get('/', [PostController::class, 'index'])->name('index');
+    Route::post('/register', [PostController::class, 'store'])->name('store');
     });
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
