@@ -6,6 +6,7 @@ use App\Http\Requests\Post\IndexRequest;
 use App\Http\Requests\Post\StoreRequest;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -35,7 +36,9 @@ class PostController extends Controller
 
 
         // get()で実際にデータを取得
-        $posts = $query->paginate(5);
+        $posts = $query
+        ->orderBy('updated_at','desc')
+        ->paginate(5);
 
         return response()->json($posts);
     }
@@ -54,5 +57,17 @@ class PostController extends Controller
         return response()->json([
             'message' => '懺悔を登録しました。',
         ]);
+    }    
+    public function show()
+    {
+        $user_id = Auth::user()->id;
+        
+        $query = Post::where('user_id', $user_id)
+        ->select('posts.id','user_id','category_id','content','category_name')
+        ->join('categories','posts.category_id','=','categories.id')
+        ->orderBy('posts.updated_at','desc')
+        ->paginate(5);
+        
+        return response()->json($query);
     }    
 }

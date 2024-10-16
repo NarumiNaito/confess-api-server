@@ -12,7 +12,7 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        Log::debug(print_r($this->all()));
+
         return [
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'content' => ['required', 'string']
