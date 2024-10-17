@@ -21,6 +21,7 @@ Route::middleware('auth:user')->group(function () {
     Route::prefix('/posts')->name('post.')->group(function() {
         Route::get('/show', [PostController::class, 'show'])->name('show');
         Route::post('/register', [PostController::class, 'store'])->name('store');
+        Route::post('/update', [PostController::class, 'update'])->name('update');
         });
 });
 
