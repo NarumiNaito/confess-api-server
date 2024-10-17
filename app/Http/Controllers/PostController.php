@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\IndexRequest;
 use App\Http\Requests\Post\StoreRequest;
+use App\Http\Requests\Post\UpdateRequest;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -70,4 +71,25 @@ class PostController extends Controller
         
         return response()->json($query);
     }    
+    public function update(UpdateRequest $request)
+    {
+        $user = Auth::user();
+        $post = Post::where('user_id', $user->id)
+        ->find($request->input('id'));
+
+        if (is_null($post)) {
+            return response()->json([
+                'message' => '更新対象の懺悔が存在しません。',
+            ], 404);
+        }
+
+        $post->update([
+            'category_id' => $request->input('category_id'),
+            'content' => $request->input('content'),
+        ]);
+
+        return response()->json([
+            'message' => '懺悔を更新しました。',
+        ]);
+    }
 }
