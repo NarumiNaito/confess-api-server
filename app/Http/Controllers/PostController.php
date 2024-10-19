@@ -105,7 +105,7 @@ class PostController extends Controller
         ], 404);
         }
 
-        Log::debug(print_r($post));
+        // Log::debug(print_r($post));
         
         $post->delete();
         
