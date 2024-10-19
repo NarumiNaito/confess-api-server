@@ -22,7 +22,8 @@ Route::middleware('auth:user')->group(function () {
         Route::get('/show', [PostController::class, 'show'])->name('show');
         Route::post('/register', [PostController::class, 'store'])->name('store');
         Route::post('/update', [PostController::class, 'update'])->name('update');
-        });
+        Route::delete('/delete', [PostController::class, 'delete'])->name('delete');    
+    });
 });
 
 Route::prefix('/posts')->name('post.')->group(function() {

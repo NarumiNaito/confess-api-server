@@ -12,7 +12,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'id' => ['required', 'integer'],
+            'id' => ['required', 'integer'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'content' => ['required', 'string']
         ];
