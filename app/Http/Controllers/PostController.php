@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Post\DeleteRequest;
 use App\Http\Requests\Post\IndexRequest;
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
@@ -40,6 +41,7 @@ class PostController extends Controller
         $posts = $query
         ->orderBy('updated_at','desc')
         ->paginate(5);
+        
 
         return response()->json($posts);
     }
@@ -90,6 +92,25 @@ class PostController extends Controller
 
         return response()->json([
             'message' => '懺悔を更新しました。',
+        ]);
+    }
+    public function delete(DeleteRequest $request)
+    {
+        $user = Auth::user();
+        $post = Post::where('user_id', $user->id)->find($request->input('id'));
+        
+        if (is_null($post)) {
+            return response()->json([
+            'message' => '削除対象の懺悔が存在しません。',
+        ], 404);
+        }
+
+        Log::debug(print_r($post));
+        
+        $post->delete();
+        
+        return response()->json([
+            'message' => '懺悔を削除しました。',
         ]);
     }
 }
