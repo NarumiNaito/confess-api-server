@@ -6,6 +6,7 @@ use App\Http\Requests\Post\DeleteRequest;
 use App\Http\Requests\Post\IndexRequest;
 use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -107,7 +108,9 @@ class PostController extends Controller
 
         // Log::debug(print_r($post));
         
+        Comment::where('post_id', '=', $request->id)->delete();
         $post->delete();
+        
         
         return response()->json([
             'message' => '懺悔を削除しました。',

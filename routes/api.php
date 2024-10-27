@@ -28,6 +28,7 @@ Route::middleware('auth:user')->group(function () {
     Route::prefix('/comments')->name('comment.')->group(function() {
         Route::get('/index/{id}', [CommentController::class, 'index'])->name('index');
         Route::post('/register', [CommentController::class, 'store'])->name('store');
+        Route::delete('/delete', [CommentController::class, 'delete'])->name('delete');  
     });
 });
 
