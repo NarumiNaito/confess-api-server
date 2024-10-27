@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class DeleteRequest extends FormRequest
 {
@@ -31,7 +30,7 @@ class DeleteRequest extends FormRequest
     public function attributes()
     {
         return [
-            'id' => '懺悔ID',
+            'id' => 'コメントID',
         ];
     }
 }
