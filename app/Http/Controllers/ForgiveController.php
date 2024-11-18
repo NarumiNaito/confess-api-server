@@ -47,6 +47,8 @@ class ForgiveController extends Controller
         ->join('users', 'forgives.user_id', '=', 'users.id')
         ->join('posts', 'forgives.post_id', '=', 'posts.id')
         ->join('categories', 'posts.category_id', '=', 'categories.id')
+        // ->groupBy('posts.id') 
+        // ->distinct()
         ->orderBy('forgives.updated_at', 'desc') // 最新の順にソート（必要に応じて変更）
         ->paginate(5); // 5件ずつページネーション
 

@@ -43,6 +43,49 @@ class PostController extends Controller
     }
 
 
+
+    public function homeFulfillment(IndexRequest $request)
+    {
+    
+        $categoryId = $request->input('category_id');
+    
+        $query = Post::select('posts.*', 'users.name', 'users.image', 'categories.category_name')
+            ->withCount('comment', 'forgives')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->join('forgives', 'posts.id', '=', 'forgives.post_id') 
+            ->join('users as forgive_users', 'forgives.user_id', '=', 'forgive_users.id')
+            ->join('categories', 'posts.category_id', '=', 'categories.id')
+            ->groupBy('posts.id') 
+            ->distinct(); 
+        
+        if ($categoryId) {
+            $query->where('posts.category_id', $categoryId);
+        }
+    
+        $posts = $query
+            ->orderBy('posts.updated_at', 'desc')
+            ->paginate(5);
+        
+        $filteredPosts = $posts->map(function ($post) {
+            $post->is_like = $post->forgives->isNotEmpty();
+            unset($post->forgives);
+            return $post;
+        });
+    
+        $filteredPosts = $filteredPosts->values();
+        
+        $result = [
+            'data' => $filteredPosts,
+            'current_page' => $posts->currentPage(),
+            'last_page' => $posts->lastPage(),
+            'per_page' => $posts->perPage(),
+            'total' => $posts->total(),
+        ];
+    
+        return response()->json($result);
+    }
+
+
     
     public function myIndex(IndexRequest $request)
     {
@@ -93,10 +136,6 @@ class PostController extends Controller
     {
         $user = Auth::user();
     
-        if (!$user) {
-            return response()->json(['error' => 'Unauthenticated'], 401);
-        }
-    
         $categoryId = $request->input('category_id');
     
         $query = Post::select('posts.*', 'users.name', 'users.image', 'categories.category_name')
@@ -140,55 +179,53 @@ class PostController extends Controller
 
 
 
-    public function fulfillmentMyIndex(IndexRequest $request)
-    {
-        $user = Auth::user();
-    
-        if (!$user) {
-            return response()->json(['error' => 'Unauthenticated'], 401);
-        }
+
+
+    // public function fulfillmentMyIndex(IndexRequest $request)
+    // {
+    //     $user = Auth::user();
         
-        $categoryId = $request->input('category_id');
+    //     $categoryId = $request->input('category_id');
     
-        $query = Post::select('posts.*', 'users.name', 'users.image', 'categories.category_name')
-            ->withCount('comment', 'forgives')
-            ->with(['forgives' => function($query) use ($user) {
-                $query->where('user_id', $user->id);
-            }])
-            ->join('users', 'posts.user_id', '=', 'users.id')
-            ->Join('forgives', 'posts.id', '=', 'forgives.post_id')
-            ->Join('users as forgive_users', 'forgives.user_id', '=', 'forgive_users.id')
-            ->join('categories', 'posts.category_id', '=', 'categories.id')
-            ->where('forgives.user_id', $user->id); 
+    //     $query = Post::select('posts.*', 'users.name', 'users.image', 'categories.category_name')
+    //         ->withCount('comment', 'forgives')
+    //         ->with(['forgives' => function($query) use ($user) {
+    //             $query->where('user_id', $user->id);
+    //         }])
+    //         ->join('users', 'posts.user_id', '=', 'users.id')
+    //         ->Join('forgives', 'posts.id', '=', 'forgives.post_id')
+    //         ->Join('users as forgive_users', 'forgives.user_id', '=', 'forgive_users.id')
+    //         ->join('categories', 'posts.category_id', '=', 'categories.id')
+    //         ->where('forgives.user_id', $user->id); 
     
-        if ($categoryId) {
-            $query->where('posts.category_id', $categoryId);
-        }
+    //     if ($categoryId) {
+    //         $query->where('posts.category_id', $categoryId);
+    //     }
     
-        $posts = $query
-            ->orderBy('updated_at', 'desc')
-            ->paginate(5);
+    //     $posts = $query
+    //         ->orderBy('updated_at', 'desc')
+    //         ->paginate(5);
     
-        $filteredPosts = $posts->map(function ($post) {
-            $post->is_like = $post->forgives->isNotEmpty();
-            unset($post->forgives);
-            return $post;
-        });
+    //     $filteredPosts = $posts->map(function ($post) {
+    //         $post->is_like = $post->forgives->isNotEmpty();
+    //         unset($post->forgives);
+    //         return $post;
+    //     });
     
-        $filteredPosts = $filteredPosts->values();
+    //     $filteredPosts = $filteredPosts->values();
         
-        $result = [
-            'data' => $filteredPosts,
-            'current_page' => $posts->currentPage(),
-            'last_page' => $posts->lastPage(),
-            'per_page' => $posts->perPage(),
-            'total' => $filteredPosts->count(),
-        ];
+    //     $result = [
+    //         'data' => $filteredPosts,
+    //         'current_page' => $posts->currentPage(),
+    //         'last_page' => $posts->lastPage(),
+    //         'per_page' => $posts->perPage(),
+    //         'total' => $filteredPosts->count(),
+    //     ];
     
-        return response()->json(
-            $result,
-        );
-    }
+    //     return response()->json(
+    //         $result,
+    //     );
+    // }
 
 
 
