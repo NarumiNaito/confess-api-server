@@ -33,7 +33,11 @@ class Post extends Model
     public function forgives()
     {
         return $this->belongsToMany(User::class, 'forgives')->withTimestamps();
-        // return $this->hasMany(Forgive::class );
+    }
+
+    public function bookmarks()
+    {
+        return $this->belongsToMany(User::class, 'bookmarks')->withTimestamps();
     }
 
     }
