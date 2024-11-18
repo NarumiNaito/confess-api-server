@@ -24,8 +24,16 @@ class Post extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
     public function comment()
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function forgives()
+    {
+        return $this->belongsToMany(User::class, 'forgives')->withTimestamps();
+        // return $this->hasMany(Forgive::class );
+    }
+
     }

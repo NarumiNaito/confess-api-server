@@ -11,21 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('forgives', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->comment('ユーザーID');
-            $table->foreignId('category_id')->constrained('categories')->comment('カテゴリID');
-            $table->text('content')->comment('内容');
+            $table->foreignId('post_id')->constrained('posts')->onDelete('cascade')->comment('ポストID');
             $table->timestamps();
 
+            $table->dropForeign('forgives_post_id_foreign');
         });
     }
+    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('forgives');
     }
 };
