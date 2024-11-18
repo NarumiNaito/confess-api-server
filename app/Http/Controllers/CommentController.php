@@ -23,6 +23,18 @@ class CommentController extends Controller
         return response()->json($comment);
 
     }
+    public function show($id)
+    {
+    
+        $comment = Comment::where('post_id', $id)
+        ->select('comments.*','user_id','post_id','content', 'users.name', 'users.image',)
+        ->join('users','comments.user_id', '=', 'users.id')
+        ->orderBy('comments.updated_at','desc')
+        ->paginate(5);
+    
+        return response()->json($comment);
+
+    }
     public function store(StoreRequest $request)
     {
         $user = Auth::user();

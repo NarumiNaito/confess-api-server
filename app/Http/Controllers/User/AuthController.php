@@ -72,4 +72,14 @@ class AuthController extends Controller
             'message' => 'ログアウトしました。',
         ]);
     }
+    public function User()
+    {
+        // $user = Auth::user();
+        $user_id = Auth::id(); 
+        $users = User::where('id', $user_id)
+        ->select('id','name','email','password','image','created_at','updated_at')
+        ->get();
+
+        return response()->json($users);
+    }
 }       
