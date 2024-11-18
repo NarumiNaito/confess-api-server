@@ -39,12 +39,13 @@ Route::middleware('auth:user')->group(function () {
     });
 });
 
-Route::prefix('/forgives')->name('forgive.')->group(function() {
-    Route::get('/index', [ForgiveController::class, 'index'])->name('index');
-});
+// Route::prefix('/forgives')->name('forgive.')->group(function() {
+//     Route::get('/index', [ForgiveController::class, 'index'])->name('index');
+// });
 
 Route::prefix('/posts')->name('post.')->group(function() {
     Route::get('/', [PostController::class, 'index'])->name('index');
+    Route::get('/homeFulfillment', [PostController::class, 'homeFulfillment'])->name('homeFulfillment');
 } );
 
 Route::prefix('/comments')->name('comment.')->group(function() {
