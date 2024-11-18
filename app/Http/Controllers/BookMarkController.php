@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Forgive\ToggleRequest;
-use App\Models\Forgive;
+use App\Http\Requests\BookMark\ToggleRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ForgiveController extends Controller
+class BookMarkController extends Controller
 {
     public function toggle(ToggleRequest $request)
     {
@@ -22,17 +21,17 @@ class ForgiveController extends Controller
             ], 404);
         }
 
-        if ($request->input('is_forgive')) {
-            $user->forgives()->syncWithoutDetaching($request->input('post_id'));
+        if ($request->input('is_bookmarks')) {
+            $user->bookmarks()->syncWithoutDetaching($request->input('post_id'));
             return response()->json([
-            'message' => '「赦す」を登録しました。'
+            'message' => '「ブックマーク」を登録しました。'
             ], 200);
         }
 
-        $user->forgives()->detach($request->input('post_id'));
+        $user->bookmarks()->detach($request->input('post_id'));
 
         return response()->json([
-            'message' => '「赦す」を解除しました。'
+            'message' => '「ブックマーク」を解除しました。'
         ], 200);
     }
 }

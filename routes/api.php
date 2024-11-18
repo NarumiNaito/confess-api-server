@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookMarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgiveController;
 use App\Http\Controllers\PostController;
@@ -23,7 +24,8 @@ Route::middleware('auth:user')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::prefix('/posts')->name('post.')->group(function() {
         Route::get('/myIndex', [PostController::class, 'myIndex'])->name('myIndex');
-        Route::get('/fulfillmentIndex', [PostController::class, 'fulfillmentIndex'])->name('fulfillmentIndex');
+        Route::get('/bookmark', [PostController::class, 'bookmark'])->name('bookmark');
+        Route::get('/fulfillment', [PostController::class, 'fulfillment'])->name('fulfillment');
         Route::get('/show', [PostController::class, 'show'])->name('show');
         Route::post('/register', [PostController::class, 'store'])->name('store');
         Route::post('/update', [PostController::class, 'update'])->name('update');
@@ -37,11 +39,10 @@ Route::middleware('auth:user')->group(function () {
     Route::prefix('/forgives')->name('forgive.')->group(function() {
         Route::post('/toggle', [ForgiveController::class, 'toggle'])->name('toggle');
     });
+    Route::prefix('/bookmarks')->name('bookmarks.')->group(function() {
+        Route::post('/toggle', [BookMarkController::class, 'toggle'])->name('toggle');
+    });
 });
-
-// Route::prefix('/forgives')->name('forgive.')->group(function() {
-//     Route::get('/index', [ForgiveController::class, 'index'])->name('index');
-// });
 
 Route::prefix('/posts')->name('post.')->group(function() {
     Route::get('/', [PostController::class, 'index'])->name('index');

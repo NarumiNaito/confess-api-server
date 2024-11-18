@@ -90,10 +90,6 @@ class PostController extends Controller
     public function myIndex(IndexRequest $request)
     {
         $user = Auth::user();
-
-        if (!$user) {
-            return response()->json(['error' => 'Unauthenticated'], 401);
-        }
         
         $searchWord = $request->input('search_word');
         $categoryId = $request->input('category_id');
@@ -101,6 +97,9 @@ class PostController extends Controller
         $query = Post::select('posts.*', 'users.name', 'users.image','categories.category_name')
         ->withCount('comment','forgives')
         ->with(['forgives' => function($query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])
+        ->with(['bookmarks' => function($query) use ($user) {
             $query->where('user_id', $user->id);
         }])
         ->join('users', 'posts.user_id', '=', 'users.id')
@@ -127,12 +126,18 @@ class PostController extends Controller
             return $post;
         });
     
+        $posts->map(function ($post) {
+            $post->is_bookmarks = $post->bookmarks->isNotEmpty();
+            unset($post->bookmarks);
+            return $post;
+        });
+
         return response()->json($posts);
     }
 
 
 
-    public function fulfillmentIndex(IndexRequest $request)
+    public function fulfillment(IndexRequest $request)
     {
         $user = Auth::user();
     
@@ -141,6 +146,9 @@ class PostController extends Controller
         $query = Post::select('posts.*', 'users.name', 'users.image', 'categories.category_name')
             ->withCount('comment', 'forgives')
             ->with(['forgives' => function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            }])
+            ->with(['bookmarks' => function($query) use ($user) {
                 $query->where('user_id', $user->id);
             }])
             ->join('users', 'posts.user_id', '=', 'users.id')
@@ -163,6 +171,12 @@ class PostController extends Controller
             unset($post->forgives);
             return $post;
         });
+
+        $posts->map(function ($post) {
+            $post->is_bookmarks = $post->bookmarks->isNotEmpty();
+            unset($post->bookmarks);
+            return $post;
+        });
     
         $filteredPosts = $filteredPosts->values();
         
@@ -178,6 +192,51 @@ class PostController extends Controller
     }
 
 
+    public function Bookmark(IndexRequest $request)
+    {
+        $user = Auth::user();
+        $categoryId = $request->input('category_id');
+    
+        $query = Post::select('posts.*', 'users.name', 'users.image', 'categories.category_name')
+            ->withCount('comment', 'forgives')
+            ->with(['forgives' => function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            }])
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->join('categories', 'posts.category_id', '=', 'categories.id')
+            ->join('bookmarks', 'posts.id', '=', 'bookmarks.post_id') 
+            ->where('bookmarks.user_id', $user->id) 
+            ->groupBy('posts.id')
+            ->distinct();
+
+        if ($categoryId) {
+            $query->where('posts.category_id', $categoryId);
+        }
+    
+        $posts = $query
+            ->orderBy('posts.updated_at', 'desc')
+            ->paginate(5);
+    
+        $filteredPosts = $posts->map(function ($post) {
+            $post->is_like = $post->forgives->isNotEmpty();
+            $post->is_bookmarks = true; 
+            unset($post->forgives);
+            return $post;
+        });
+    
+        $filteredPosts = $filteredPosts->values();
+    
+        
+        $result = [
+            'data' => $filteredPosts,
+            'current_page' => $posts->currentPage(),
+            'last_page' => $posts->lastPage(),
+            'per_page' => $posts->perPage(),
+            'total' => $posts->total(),
+        ];
+    
+        return response()->json($result);
+    }
 
 
 
