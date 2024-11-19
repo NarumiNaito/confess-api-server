@@ -19,9 +19,14 @@ use App\Http\Controllers\User\AuthController;
 |
 */
 
-Route::middleware('auth:user')->group(function () {
-    Route::get('/user', [AuthController::class, 'user'])->name('user');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::middleware('auth:user')->group(function () {
+        Route::prefix('/user')->name('profile.')->group(function() {
+        Route::get('/', [AuthController::class, 'user'])->name('user');
+        Route::post('/store', [AuthController::class, 'store'])->name('store');
+        Route::get('/show', [AuthController::class, 'show'])->name('show');
+        Route::post('/update', [AuthController::class, 'update'])->name('update');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    });
     Route::prefix('/posts')->name('post.')->group(function() {
         Route::get('/myIndex', [PostController::class, 'myIndex'])->name('myIndex');
         Route::get('/bookmark', [PostController::class, 'bookmark'])->name('bookmark');
