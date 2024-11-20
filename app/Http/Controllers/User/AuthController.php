@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Requests\User\LoginRequest;
-use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
@@ -79,62 +78,24 @@ class AuthController extends Controller
         return response()->json($users);
     }
 
-    // public function store(StoreRequest $request)
+    // public function show($id)
     // {
-    //     $userId = Auth::id();
-    //     $existsProfile = User::where('user_id', $userId)->exists();
+    //     $profile = User::find($id);
 
-    //     if ($existsProfile) {
+    //     if (is_null($profile)) {
     //         return response()->json([
-    //         'message' => 'すでにプロフィールが登録されています。'
-    //     ]);
-    // }
-
-    //     if (is_null($request->image)) {
-    //         User::create([
-    //             'user_id' => $userId,
-    //             'name' => $request->name,
-    //             'image' => null,
+    //             'message' => 'プロフィールが存在しません。'
     //         ]);
-
-    //     return response()->json([
-    //         'message' => 'プロフィール情報を登録しました。'
-    //     ]);
     //     }
 
-    //     $extension = $request->image->extension();
-    //     $fileName = Str::uuid().'.'.$extension;
-    //     $uploadedFilePath = Storage::disk('s3')->putFile('images', $request->image, $fileName);
-
-    //     User::create([
-    //         'user_id' => $userId,
-    //         'name' => $request->name,
-    //         'image' => $uploadedFilePath,
-    //     ]);
+    //     $imagePath = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$profile->image);
 
     //     return response()->json([
-    //         'message' => 'プロフィール情報を登録しました。'
-    //     ]);
-    // }
-
-    public function show($id)
-    {
-        $profile = User::find($id);
-
-        if (is_null($profile)) {
-            return response()->json([
-                'message' => 'プロフィールが存在しません。'
-            ]);
-        }
-
-        $imagePath = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$profile->image);
-
-        return response()->json([
-            'id' => $profile->id,
-            'name' => $profile->name,
-            'image' => $imagePath
-            ]);
-        }
+    //         'id' => $profile->id,
+    //         'name' => $profile->name,
+    //         'image' => $imagePath
+    //         ]);
+    //     }
 
         public function update(UpdateRequest $request)
         {
