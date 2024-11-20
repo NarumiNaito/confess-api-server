@@ -29,7 +29,6 @@ class UserFactory extends Factory
             'image' => fake()->filePath(),
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
-            // 'image' => 
         ];
     }
 
@@ -40,6 +39,16 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+    public function guest(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'ゲスト',
+            'email' => 'welcome@guest.com',
+            'image' => 'null',
+            'email_verified_at' => now(),
+            'password' => Hash::make('welcome4649'),
         ]);
     }
 }
