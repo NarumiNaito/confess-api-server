@@ -135,7 +135,56 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
+    public function UserIndex($id)
+    {
+        $user = Auth::user();
+        
+        $query = Post::where('user_id', $id)
+        ->select('posts.*', 'users.name', 'users.image','categories.category_name')
+        ->withCount('comment','forgives')
+        ->with(['forgives' => function($query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])
+        ->with(['bookmarks' => function($query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])
+        ->join('users', 'posts.user_id', '=', 'users.id')
+        ->join('categories','posts.category_id','=','categories.id');
 
+        $posts = $query
+        ->orderBy('updated_at','desc')
+        ->paginate(5);
+
+        $posts->map(function ($post) {
+            $post->is_like = $post->forgives->isNotEmpty();
+            unset($post->forgives);
+            return $post;
+        });
+    
+        $posts->map(function ($post) {
+            $post->is_bookmarks = $post->bookmarks->isNotEmpty();
+            unset($post->bookmarks);
+            return $post;
+        });
+
+        return response()->json($posts);
+    }
+
+    public function homeUserIndex($id)
+    {
+        
+        $query = Post::where('user_id', $id)
+        ->select('posts.*', 'users.name', 'users.image','categories.category_name')
+        ->withCount('comment','forgives')
+        ->join('users', 'posts.user_id', '=', 'users.id')
+        ->join('categories','posts.category_id','=','categories.id');
+
+        $posts = $query
+        ->orderBy('updated_at','desc')
+        ->paginate(5);
+
+        return response()->json($posts);
+    }
 
     public function fulfillment(IndexRequest $request)
     {
