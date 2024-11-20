@@ -117,24 +117,24 @@ class AuthController extends Controller
     //     ]);
     // }
 
-    // public function show($id)
-    // {
-    //     $profile = User::find($id);
+    public function show($id)
+    {
+        $profile = User::find($id);
 
-    //     if (is_null($profile)) {
-    //         return response()->json([
-    //             'message' => 'プロフィールが存在しません。'
-    //         ]);
-    //     }
+        if (is_null($profile)) {
+            return response()->json([
+                'message' => 'プロフィールが存在しません。'
+            ]);
+        }
 
-    //     $imagePath = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$profile->image);
+        $imagePath = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$profile->image);
 
-    //     return response()->json([
-    //         'id' => $profile->id,
-    //         'name' => $profile->name,
-    //         'image' => $imagePath
-    //         ]);
-    //     }
+        return response()->json([
+            'id' => $profile->id,
+            'name' => $profile->name,
+            'image' => $imagePath
+            ]);
+        }
 
         public function update(UpdateRequest $request)
         {
