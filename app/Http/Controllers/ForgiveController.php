@@ -35,4 +35,14 @@ class ForgiveController extends Controller
             'message' => '「赦す」を解除しました。'
         ], 200);
     }
+    public function index($id)
+    {
+        $forgive = Forgive::where('post_id', $id)
+        ->select('forgives.*','user_id','post_id', 'users.name', 'users.image',)
+        ->join('users','forgives.user_id', '=', 'users.id')
+        ->orderBy('forgives.updated_at','desc')
+        ->paginate(5);
+    
+        return response()->json($forgive);
+    }
 }
