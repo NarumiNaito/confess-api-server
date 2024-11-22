@@ -287,56 +287,6 @@ class PostController extends Controller
         return response()->json($result);
     }
 
-
-
-    // public function fulfillmentMyIndex(IndexRequest $request)
-    // {
-    //     $user = Auth::user();
-        
-    //     $categoryId = $request->input('category_id');
-    
-    //     $query = Post::select('posts.*', 'users.name', 'users.image', 'categories.category_name')
-    //         ->withCount('comment', 'forgives')
-    //         ->with(['forgives' => function($query) use ($user) {
-    //             $query->where('user_id', $user->id);
-    //         }])
-    //         ->join('users', 'posts.user_id', '=', 'users.id')
-    //         ->Join('forgives', 'posts.id', '=', 'forgives.post_id')
-    //         ->Join('users as forgive_users', 'forgives.user_id', '=', 'forgive_users.id')
-    //         ->join('categories', 'posts.category_id', '=', 'categories.id')
-    //         ->where('forgives.user_id', $user->id); 
-    
-    //     if ($categoryId) {
-    //         $query->where('posts.category_id', $categoryId);
-    //     }
-    
-    //     $posts = $query
-    //         ->orderBy('updated_at', 'desc')
-    //         ->paginate(5);
-    
-    //     $filteredPosts = $posts->map(function ($post) {
-    //         $post->is_like = $post->forgives->isNotEmpty();
-    //         unset($post->forgives);
-    //         return $post;
-    //     });
-    
-    //     $filteredPosts = $filteredPosts->values();
-        
-    //     $result = [
-    //         'data' => $filteredPosts,
-    //         'current_page' => $posts->currentPage(),
-    //         'last_page' => $posts->lastPage(),
-    //         'per_page' => $posts->perPage(),
-    //         'total' => $filteredPosts->count(),
-    //     ];
-    
-    //     return response()->json(
-    //         $result,
-    //     );
-    // }
-
-
-
     public function store(StoreRequest $request)
     {
         $user = Auth::user();
