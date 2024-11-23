@@ -3,10 +3,12 @@
 use App\Http\Controllers\BookMarkController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgiveController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController;
+use App\Models\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +24,6 @@ use App\Http\Controllers\User\AuthController;
     Route::middleware('auth:user')->group(function () {
         Route::prefix('/user')->name('profile.')->group(function() {
         Route::get('/', [AuthController::class, 'user'])->name('user');
-        // Route::get('/show', [AuthController::class, 'show'])->name('show');
         Route::post('/update', [AuthController::class, 'update'])->name('update');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     });
@@ -48,6 +49,9 @@ use App\Http\Controllers\User\AuthController;
     Route::prefix('/bookmarks')->name('bookmarks.')->group(function() {
         Route::post('/toggle', [BookMarkController::class, 'toggle'])->name('toggle');
     });
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('index');
+    Route::get('/notifications/count', [NotificationController::class, 'count'])->name('count');
+
 });
 
 Route::prefix('/posts')->name('post.')->group(function() {

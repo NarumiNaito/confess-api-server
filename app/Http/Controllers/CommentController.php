@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Comment\DeleteRequest;
 use App\Http\Requests\Comment\StoreRequest;
 use App\Models\Comment;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -39,10 +40,16 @@ class CommentController extends Controller
     {
         $user = Auth::user();
         
-        Comment::create([
+        $comment = Comment::create([
             'user_id' => $user->id,
             'post_id' => $request->input('post_id'),
             'content' => $request->input('content'),
+        ]);
+        
+        Notification::create([
+            'user_id'=>$comment->post->user_id,
+            'comment_id'=>$comment->id,
+            'is_read'=>false
         ]);
         
         return response()->json([
@@ -60,6 +67,7 @@ class CommentController extends Controller
         ], 404);
         }
         
+        Notification::where('comment_id',$comment->id)->delete();
         $comment->delete();
         
         return response()->json([

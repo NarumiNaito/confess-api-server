@@ -20,8 +20,12 @@ class Forgive extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function posts()
+    public function post()
     {
         return $this->belongsTo(Post::class);
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 }

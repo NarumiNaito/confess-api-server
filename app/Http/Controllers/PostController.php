@@ -11,6 +11,7 @@ use App\Models\Forgive;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -131,6 +132,12 @@ class PostController extends Controller
             unset($post->bookmarks);
             return $post;
         });
+
+        $posts->each(function ($post) {
+            if ($post->image) {
+                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+            }
+            });
 
         return response()->json($posts);
     }
