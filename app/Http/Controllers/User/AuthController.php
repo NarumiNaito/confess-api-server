@@ -79,29 +79,12 @@ class AuthController extends Controller
             if ($user->image) {
                 $user->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$user->image);
             }
-          });
+            });
 
         return response()->json($users);
     }
 
-    // public function show($id)
-    // {
-    //     $profile = User::find($id);
-
-    //     if (is_null($profile)) {
-    //         return response()->json([
-    //             'message' => 'プロフィールが存在しません。'
-    //         ]);
-    //     }
-
-    //     $imagePath = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$profile->image);
-
-    //     return response()->json([
-    //         'id' => $profile->id,
-    //         'name' => $profile->name,
-    //         'image' => $imagePath
-    //         ]);
-    //     }
+    
 
         public function update(UpdateRequest $request)
         {

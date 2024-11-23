@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Forgive\ToggleRequest;
 use App\Models\Forgive;
+use App\Models\Notification;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,17 @@ class ForgiveController extends Controller
 
         if ($request->input('is_forgive')) {
             $user->forgives()->syncWithoutDetaching($request->input('post_id'));
+            $forgive = Forgive::where('user_id',$user->id)
+            ->where('post_id',$request->input("post_id"))
+            ->first();
+
+            Notification::updateOrCreate([
+                'user_id'=>$post->user->id,
+                'forgive'=>$forgive->id
+            ],[
+                'is_read'=>false
+            ]);
+            
             return response()->json([
             'message' => '「赦す」を登録しました。'
             ], 200);
