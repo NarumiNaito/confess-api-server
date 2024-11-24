@@ -8,6 +8,7 @@ use App\Models\Notification;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ForgiveController extends Controller
 {
@@ -54,6 +55,12 @@ class ForgiveController extends Controller
         ->join('users','forgives.user_id', '=', 'users.id')
         ->orderBy('forgives.updated_at','desc')
         ->paginate(5);
+
+        $forgive->each(function ($q) {
+            if ($q->image) {
+                $q->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$q->image);
+            }
+            });
     
         return response()->json($forgive);
     }

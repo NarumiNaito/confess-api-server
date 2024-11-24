@@ -9,31 +9,44 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class CommentController extends Controller
 {
     public function index($id)
     {
     
-        $comment = Comment::where('post_id', $id)
+        $comments = Comment::where('post_id', $id)
         ->select('comments.*','user_id','post_id','content', 'users.name', 'users.image',)
         ->join('users','comments.user_id', '=', 'users.id')
         ->orderBy('comments.updated_at','desc')
         ->paginate(5);
+
+        $comments->each(function ($comment) {
+            if ($comment->image) {
+                $comment->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$comment->image);
+            }
+            });
     
-        return response()->json($comment);
+        return response()->json($comments);
 
     }
     public function show($id)
     {
     
-        $comment = Comment::where('post_id', $id)
+        $comments = Comment::where('post_id', $id)
         ->select('comments.*','user_id','post_id','content', 'users.name', 'users.image',)
         ->join('users','comments.user_id', '=', 'users.id')
         ->orderBy('comments.updated_at','desc')
         ->paginate(5);
+
+        $comments->each(function ($comment) {
+            if ($comment->image) {
+                $comment->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$comment->image);
+            }
+            });
     
-        return response()->json($comment);
+        return response()->json($comments);
 
     }
     public function store(StoreRequest $request)
@@ -58,7 +71,7 @@ class CommentController extends Controller
     }    
     public function delete(DeleteRequest $request)
     {
-        // $user = Auth::user();
+      
         $comment = Comment::find($request->input('id'));
         
         if (is_null($comment)) {
