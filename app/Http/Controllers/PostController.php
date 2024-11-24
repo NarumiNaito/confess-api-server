@@ -40,6 +40,12 @@ class PostController extends Controller
         ->orderBy('updated_at','desc')
         ->paginate(5);
     
+        $posts->each(function ($post) {
+            if ($post->image) {
+                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+            }
+            });
+
         return response()->json($posts);
     }
 
@@ -67,6 +73,12 @@ class PostController extends Controller
             ->orderBy('posts.updated_at', 'desc')
             ->paginate(5);
         
+            $posts->each(function ($post) {
+                if ($post->image) {
+                    $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                }
+                });
+
         $filteredPosts = $posts->map(function ($post) {
             $post->is_like = $post->forgives->isNotEmpty();
             unset($post->forgives);
@@ -222,6 +234,12 @@ class PostController extends Controller
             ->orderBy('posts.updated_at', 'desc')
             ->paginate(5);
         
+        $posts->each(function ($post) {
+            if ($post->image) {
+                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+            }
+            });
+
         $filteredPosts = $posts->map(function ($post) {
             $post->is_like = $post->forgives->isNotEmpty();
             unset($post->forgives);
@@ -272,6 +290,12 @@ class PostController extends Controller
         $posts = $query
             ->orderBy('posts.updated_at', 'desc')
             ->paginate(5);
+
+        $posts->each(function ($post) {
+            if ($post->image) {
+                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+            }
+            });
     
         $filteredPosts = $posts->map(function ($post) {
             $post->is_like = $post->forgives->isNotEmpty();
@@ -321,7 +345,13 @@ class PostController extends Controller
         ->join('categories','posts.category_id','=','categories.id')
         ->orderBy('posts.updated_at','desc')
         ->paginate(5);
-        
+
+        $query->each(function ($post) {
+            if ($post->image) {
+                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+            }
+            });
+
         return response()->json($query);
     }    
 
