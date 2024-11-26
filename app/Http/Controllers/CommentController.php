@@ -93,7 +93,7 @@ class CommentController extends Controller
 
         Notification::where('user_id', $user->id)
           ->where('comment_id', $commentId)
-          ->update(['is_read', true]);
+          ->update(['is_read'=> true]);
 
         return response()->json([
             'message' => 'コメント内容を既読にしました。'

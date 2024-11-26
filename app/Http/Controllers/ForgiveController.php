@@ -74,7 +74,7 @@ class ForgiveController extends Controller
 
         $forgive = Notification::where('user_id', $user->id)
          ->where('forgive_id', $forgiveId)
-          ->update(['is_read', true]);
+          ->update(['is_read'=> true]);
     
         return response()->json([
             'message' => '赦された内容を既読にしました。'

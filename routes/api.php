@@ -41,12 +41,12 @@ use App\Models\Notification;
         Route::get('/index/{id}', [CommentController::class, 'index'])->name('index');
         Route::post('/register', [CommentController::class, 'store'])->name('store');
         Route::delete('/delete', [CommentController::class, 'delete'])->name('delete');  
-        Route::post('/update/notification{id}', [CommentController::class, 'updateNotification'])->name('update');
+        Route::post('/update/notification/{id}', [CommentController::class, 'updateNotification'])->name('update');
     });
     Route::prefix('/forgives')->name('forgive.')->group(function() {
         Route::post('/toggle', [ForgiveController::class, 'toggle'])->name('toggle');
         Route::get('/index/{id}', [ForgiveController::class, 'index'])->name('index');
-        Route::post('/update/notification{id}', [ForgiveController::class, 'updateNotification'])->name('update');
+        Route::post('/update/notification/{id}', [ForgiveController::class, 'updateNotification'])->name('update');
     });
     Route::prefix('/bookmarks')->name('bookmarks.')->group(function() {
         Route::post('/toggle', [BookMarkController::class, 'toggle'])->name('toggle');
