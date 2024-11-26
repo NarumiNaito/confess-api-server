@@ -32,7 +32,7 @@ class ForgiveController extends Controller
 
             Notification::updateOrCreate([
                 'user_id'=>$post->user->id,
-                'forgive'=>$forgive->id
+                'forgive_id'=>$forgive->id
             ],[
                 'is_read'=>false
             ]);
@@ -50,6 +50,9 @@ class ForgiveController extends Controller
     }
     public function index($id)
     {
+        $user = Auth::user();
+
+
         $forgive = Forgive::where('post_id', $id)
         ->select('forgives.*','user_id','post_id', 'users.name', 'users.image',)
         ->join('users','forgives.user_id', '=', 'users.id')
@@ -63,5 +66,18 @@ class ForgiveController extends Controller
             });
     
         return response()->json($forgive);
+    }
+
+    public function updateNotification($forgiveId)
+    {
+        $user = Auth::user();
+
+        $forgive = Notification::where('user_id', $user->id)
+         ->where('forgive_id', $forgiveId)
+          ->update(['is_read', true]);
+    
+        return response()->json([
+            'message' => '赦された内容を既読にしました。'
+        ]);
     }
 }

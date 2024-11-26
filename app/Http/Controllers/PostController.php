@@ -174,6 +174,12 @@ class PostController extends Controller
         ->orderBy('updated_at','desc')
         ->paginate(5);
 
+        $posts->each(function ($post) {
+            if ($post->image) {
+                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+            }
+            });
+
         $posts->map(function ($post) {
             $post->is_like = $post->forgives->isNotEmpty();
             unset($post->forgives);
@@ -201,6 +207,13 @@ class PostController extends Controller
         $posts = $query
         ->orderBy('updated_at','desc')
         ->paginate(5);
+
+         
+        $posts->each(function ($post) {
+            if ($post->image) {
+                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+            }
+            });
 
         return response()->json($posts);
     }
@@ -340,8 +353,9 @@ class PostController extends Controller
         $user_id = Auth::user()->id;
         
         $query = Post::where('user_id', $user_id)
-        ->select('posts.id','user_id','category_id','content','category_name')
+        ->select('posts.id','user_id', 'users.name','users.image','category_id','content','category_name')
         ->withCount('comment','forgives')
+        ->join('users', 'posts.user_id', '=', 'users.id')
         ->join('categories','posts.category_id','=','categories.id')
         ->orderBy('posts.updated_at','desc')
         ->paginate(5);

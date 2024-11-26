@@ -27,6 +27,7 @@ class NotificationController extends Controller
               'type' => $type,
               'post' => $notification->$type?->post,
               'user' => $notification->$type?->user,
+              $type.'_id' => $notification->$type->id,
             ];
         });
 

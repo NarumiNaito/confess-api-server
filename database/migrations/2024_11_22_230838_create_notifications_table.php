@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('comment_id')->nullable()->constrained('comments');
-            $table->foreignId('forgive_id')->nullable()->constrained('forgives');
+            $table->foreignId('comment_id')->nullable()->constrained('comments')->onDelete('cascade');
+            $table->foreignId('forgive_id')->nullable()->constrained('forgives')->onDelete('cascade');
             $table->boolean('is_read');
             $table->timestamps();
+
         });
+        
     }
 
     /**

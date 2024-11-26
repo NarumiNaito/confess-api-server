@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->dropForeign('comments_post_id_foreign');
-
+            
         });
     }
 
