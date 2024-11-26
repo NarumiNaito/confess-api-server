@@ -87,4 +87,16 @@ class CommentController extends Controller
             'message' => '懺悔を削除しました。',
         ]);
     }
+    public function updateNotification($commentId)
+    {
+        $user = Auth::user();
+
+        Notification::where('user_id', $user->id)
+          ->where('comment_id', $commentId)
+          ->update(['is_read', true]);
+
+        return response()->json([
+            'message' => 'コメント内容を既読にしました。'
+        ]);
+    }
 }
