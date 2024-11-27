@@ -24,17 +24,12 @@ class NotificationController extends Controller
           ])->where('user_id',$user->id)
           ->where('is_read',false)
           ->orderBy('updated_at','desc')
-          ->get();
-
+          ->paginate(5);
 
           $result = $notifications->map(function($notification) {
             $type = $notification->comment instanceof Comment ? 'comment' : 'forgive';
-            $image = $notification->$type->user->image;
-            $categoryName = $notification->$type?->post?->category?->category_name;
-            $userName = $notification->$type?->post?->user?->name;
-            $userImage = $notification->$type?->post?->user?->image;
-
-
+            $userImage = $notification->$type->user->image;
+            $image = $notification->$type?->post?->user?->image;
 
             return [
               'type' => $type,
@@ -43,12 +38,14 @@ class NotificationController extends Controller
               $type.'_id' => $notification->$type->id,
               'userImage' => $userImage ? Storage::disk('s3')->url(config('filesystems.disks.s3.bucket') . '/' . $userImage):null,
               'image' => $image ? Storage::disk('s3')->url(config('filesystems.disks.s3.bucket') . '/' . $image):null,
-              'category_name' => $categoryName,
-              'userName' => $userName,
             ];
         });
 
-        return response()->json($result->toArray());
+        return response()->json([
+          'data' => $result->toArray(),
+          'last_page' => $notifications->lastPage(),
+          
+      ]);
           }
 
           public function count()
