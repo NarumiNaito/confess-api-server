@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Models\BookMark;
+use App\Models\Comment;
+use App\Models\Forgive;
+use App\Models\Notification;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -126,5 +131,54 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'プロフィール情報を更新しました。'
             ]);
+        }
+
+        public function delete(Request $request)
+        {
+            
+            $validatedData = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|string',
+                'id' => 'required|integer',
+            ]);
+        
+            
+            $email = $validatedData['email'];
+            $password = $validatedData['password'];
+            $userId = $validatedData['id'];
+        
+            
+            $user = User::find($userId);
+        
+            if (is_null($user)) {
+                return response()->json([
+                    'message' => '削除対象のアカウントが存在しません。',
+                ], 403);
+            }
+        
+            
+            if ($user->email !== $email) {
+                return response()->json([
+                    'message' => 'メールアドレスが一致しません。',
+                ], 404);
+            }
+        
+            
+            if (!Hash::check($password, $user->password)) {
+                return response()->json([
+                    'message' => 'パスワードが一致しません。',
+                ], 405);
+            }
+        
+            Post::where('user_id', '=', $request->id)->delete();
+            Forgive::where('user_id', '=', $request->id)->delete();
+            Comment::where('user_id', '=', $request->id)->delete();
+            Notification::where('user_id', '=', $request->id)->delete();
+            BookMark::where('user_id', '=', $request->id)->delete();
+            $user->delete();
+        
+            return response()->json([
+                'message' => 'アカウントを削除しました。',
+            ], 200);
         }
     }
