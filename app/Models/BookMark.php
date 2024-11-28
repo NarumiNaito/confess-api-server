@@ -15,6 +15,8 @@ class BookMark extends Model
         'updated_at',
     ];
 
+    protected $table = 'bookmarks'; 
+
     public function user()
     {
         return $this->belongsTo(User::class);

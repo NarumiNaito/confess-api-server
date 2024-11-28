@@ -26,6 +26,7 @@ use App\Models\Notification;
         Route::get('/', [AuthController::class, 'user'])->name('user');
         Route::post('/update', [AuthController::class, 'update'])->name('update');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::delete('/delete', [AuthController::class, 'delete'])->name('delete');
     });
     Route::prefix('/posts')->name('post.')->group(function() {
         Route::get('/myIndex', [PostController::class, 'myIndex'])->name('myIndex');

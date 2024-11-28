@@ -6,9 +6,7 @@ use App\Http\Requests\Comment\DeleteRequest;
 use App\Http\Requests\Comment\StoreRequest;
 use App\Models\Comment;
 use App\Models\Notification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CommentController extends Controller

@@ -6,7 +6,6 @@ use App\Http\Requests\Forgive\ToggleRequest;
 use App\Models\Forgive;
 use App\Models\Notification;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
