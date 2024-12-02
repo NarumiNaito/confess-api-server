@@ -5,10 +5,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForgiveController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController;
-use App\Models\Notification;
 
 /*
 |--------------------------------------------------------------------------
