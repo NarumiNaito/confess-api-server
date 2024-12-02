@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade')->comment('ポストID');
             $table->timestamps();
 
-            $table->dropForeign('bookmarks_post_id_foreign');
+            // $table->dropForeign('bookmarks_post_id_foreign');
         });
     }
 

@@ -42,8 +42,7 @@ class NotificationController extends Controller
 
         return response()->json([
           'data' => $result->toArray(),
-          'last_page' => $notifications->lastPage(),
-          
+          'last_page' => $notifications->lastPage(),  
       ]);
           }
 
