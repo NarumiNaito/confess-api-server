@@ -169,12 +169,14 @@ class AuthController extends Controller
                     'message' => 'パスワードが一致しません。',
                 ], 405);
             }
+
         
-            Post::where('user_id', '=', $request->id)->delete();
-            Forgive::where('user_id', '=', $request->id)->delete();
-            Comment::where('user_id', '=', $request->id)->delete();
-            Notification::where('user_id', '=', $request->id)->delete();
-            BookMark::where('user_id', '=', $request->id)->delete();
+            $postIds = Post::where('user_id', $userId)->pluck('id');
+            Comment::whereIn('post_id', $postIds)->delete();
+            Forgive::whereIn('post_id', $postIds)->delete();
+            BookMark::whereIn('post_id', $postIds)->delete();
+            Post::where('user_id', $userId)->delete();
+            Notification::where('user_id', $userId)->delete();
             $user->delete();
         
             return response()->json([

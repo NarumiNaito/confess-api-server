@@ -7,6 +7,7 @@ use App\Models\Forgive;
 use App\Models\Notification;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ForgiveController extends Controller
@@ -41,12 +42,22 @@ class ForgiveController extends Controller
             ], 200);
         }
 
-        $user->forgives()->detach($request->input('post_id'));
-
+        $forgive = Forgive::where('user_id', $user->id)
+        ->where('post_id', $request->input('post_id'))
+        ->first();
+        
+        if ($forgive) {
+            Notification::where('forgive_id','=', $forgive->id)->delete();
+            $user->forgives()->detach($request->input('post_id'));
+            
+        }
         return response()->json([
             'message' => '「赦す」を解除しました。'
         ], 200);
     }
+   
+   
+   
     public function index($id)
     {
         $user = Auth::user();

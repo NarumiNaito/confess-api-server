@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade')->comment('ポストID');
             $table->timestamps();
 
-            $table->dropForeign('forgives_post_id_foreign');
         });
     }
     
