@@ -4,7 +4,7 @@ COPY .docker/php/php.ini /usr/local/etc/php/php.ini
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
-# COPY . /app/
+COPY . /app/
 
 RUN install-php-extensions \
     pdo_mysql \
