@@ -23,14 +23,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
 
-      - name: Log in to Amazon ECR
+      - name: Log in to Amazon ECR for nginx
         run: |
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5y8c0x7
-      - name: Build and Push Docker Image
+      - name: Build and Push Docker Image for nginx
         run: |
           docker build -f .docker/nginx/Dockerfile -t nginx .
           docker tag nginx:latest public.ecr.aws/n5y8c0x7/nginx:latest
           docker push public.ecr.aws/n5y8c0x7/nginx:latest
+
+      - name: Log in to Amazon ECR for php
+        run: |
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5y8c0x7
+      - name: Build and Push Docker Image for php
+        run: |
+          docker build -f .docker/php/Dockerfile -t php .
+          docker tag php:latest public.ecr.aws/n5y8c0x7/php:latest
+          docker push public.ecr.aws/n5y8c0x7/php:latest
 
   # deploy-to-ecs:
   #   runs-on: ubuntu-latest
