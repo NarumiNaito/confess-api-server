@@ -18,12 +18,12 @@ jobs:
 
       - name: Log in to Amazon ECR
         run: |
-          aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com
-
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5y8c0x7
       - name: Build and Push Docker Image
         run: |
-          docker build -f .docker/nginx/Dockerfile -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:latest .
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:latest
+          docker build -f .docker/nginx/Dockerfile -t nginx
+          docker tag nginx:latest public.ecr.aws/n5y8c0x7/nginx:latest
+          docker push public.ecr.aws/n5y8c0x7/nginx:latest
 
   # deploy-to-ecs:
   #   runs-on: ubuntu-latest
@@ -33,3 +33,5 @@ jobs:
   #     - name: Deploy to ECS
   #       run: |
   #         aws ecs update-service --cluster <cluster_name> --service <service_name> --force-new-deployment
+  # docker build -f .docker/nginx/Dockerfile -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:latest .
+  # docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:latest
