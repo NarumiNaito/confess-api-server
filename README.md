@@ -8,7 +8,7 @@
 
 <br>
 
-URL ▶ <a href="https://zangenoyakata.com/" target="_blank" rel="noopener noreferrer">https://zangenoyakata.com/</a>
+URL ▶ <a href="https://confession.zangenoyakata.com" target="_blank" rel="noopener noreferrer">https://zangenoyakata.com/</a>
 <br>
 <br>
 
@@ -70,4 +70,4 @@ confess-front 参照 URL ▶ <a href="https://github.com/NarumiNaito/confess-fro
 
 ## ER 図
 
-<img width="638" alt="ER図" src="https://github.com/user-attachments/assets/9b1f0cca-bab7-4fd3-871b-53dd0e94ca85">
+<img width="638" alt="ER図" src="https://github.com/user-attachments/assets/13d2d01e-4f08-463c-a78c-296a9ee15c0c">
