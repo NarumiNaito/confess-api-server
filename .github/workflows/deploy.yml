@@ -28,7 +28,7 @@ jobs:
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5y8c0x7
       - name: Build and Push Docker Image
         run: |
-          docker build -f .docker/nginx/Dockerfile -t nginx
+          docker build -f .docker/nginx/Dockerfile -t nginx .
           docker tag nginx:latest public.ecr.aws/n5y8c0x7/nginx:latest
           docker push public.ecr.aws/n5y8c0x7/nginx:latest
 
