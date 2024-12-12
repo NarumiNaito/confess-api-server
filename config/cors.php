@@ -23,7 +23,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:3000'],
+    'allowed_origins' => ["https://confession.zangenoyakata.com"],
 
     'allowed_origins_patterns' => [],
 
