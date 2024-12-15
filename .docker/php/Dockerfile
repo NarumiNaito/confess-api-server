@@ -21,8 +21,5 @@ RUN npm install --global yarn
 
 WORKDIR /app
 
-# Ensure artisan is executable
-RUN chmod +x /app/artisan
-
 EXPOSE 9000
 CMD ["php-fpm"]
