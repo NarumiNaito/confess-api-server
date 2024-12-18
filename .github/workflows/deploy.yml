@@ -35,8 +35,8 @@ jobs:
       - name: Build and Push Docker Image for nginx
         run: |
           docker build --platform linux/x86_64 -f .docker/nginx/Dockerfile -t confess-api-server/prod/nginx .
-          docker tag confess-api-server/prod/nginx:latest public.ecr.aws/n5y8c0x7/nginx:latest
-          docker push public.ecr.aws/n5y8c0x7/nginx:latest
+          docker tag confess-api-server/prod/nginx:latest 124355639597.dkr.ecr.ap-northeast-1.amazonaws.com/confess-api-server/prod/nginx:latest
+          docker push 124355639597.dkr.ecr.ap-northeast-1.amazonaws.com/confess-api-server/prod/nginx:latest
 
       - name: Log in to Amazon ECR for php
         run: |
@@ -44,8 +44,8 @@ jobs:
       - name: Build and Push Docker Image for php
         run: |
           docker build --platform linux/x86_64 -f .docker/php/Dockerfile -t confess-api-server/prod/php .
-          docker tag confess-api-server/prod/app:latest  public.ecr.aws/n5y8c0x7/php:latest
-          docker push public.ecr.aws/n5y8c0x7/php:latest
+          docker tag confess-api-server/prod/app:latest 124355639597.dkr.ecr.ap-northeast-1.amazonaws.com/confess-api-server/prod/app:latest
+          docker push 124355639597.dkr.ecr.ap-northeast-1.amazonaws.com/confess-api-server/prod/app:latest
 
   # deploy-to-ecs:
   #   runs-on: ubuntu-latest
