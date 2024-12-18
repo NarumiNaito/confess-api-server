@@ -31,7 +31,7 @@ jobs:
 
       - name: Log in to Amazon ECR for nginx
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/124355639597
+          aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 124355639597.dkr.ecr.ap-northeast-1.amazonaws.com
       - name: Build and Push Docker Image for nginx
         run: |
           docker build --platform linux/x86_64 -f .docker/nginx/Dockerfile -t confess-api-server/prod/nginx .
@@ -40,7 +40,7 @@ jobs:
 
       - name: Log in to Amazon ECR for php
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/124355639597
+          aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 124355639597.dkr.ecr.ap-northeast-1.amazonaws.com
       - name: Build and Push Docker Image for php
         run: |
           docker build --platform linux/x86_64 -f .docker/php/Dockerfile -t confess-api-server/prod/php .
