@@ -8,7 +8,7 @@
 
 <br>
 
-URL ▶ <a href="https://confession.zangenoyakata.com" target="_blank" rel="noopener noreferrer">https://confess.zangenoyakata.com/</a>
+URL ▶ <a href="https://confession.zangenoyakata.com" target="_blank" rel="noopener noreferrer">https://confess.zangenoyakata.com</a>
 <br>
 <br>
 
