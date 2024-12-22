@@ -42,7 +42,7 @@ class PostController extends Controller
     
         $posts->each(function ($post) {
             if ($post->image) {
-                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                $post->image = Storage::disk('s3')->url($post->image);
             }
             });
 
@@ -83,7 +83,7 @@ class PostController extends Controller
         
             $posts->each(function ($post) {
                 if ($post->image) {
-                    $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                    $post->image = Storage::disk('s3')->url($post->image);
                 }
                 });
 
@@ -143,7 +143,7 @@ class PostController extends Controller
         
         $posts->each(function ($post) {
             if ($post->image) {
-                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                $post->image = Storage::disk('s3')->url($post->image);
             }
             });
 
@@ -220,7 +220,7 @@ class PostController extends Controller
 
         $posts->each(function ($post) {
             if ($post->image) {
-                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                $post->image = Storage::disk('s3')->url($post->image);
             }
             });
 
@@ -249,7 +249,7 @@ class PostController extends Controller
 
         $posts->each(function ($post) {
             if ($post->image) {
-                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                $post->image = Storage::disk('s3')->url($post->image);
             }
             });
 
@@ -283,7 +283,7 @@ class PostController extends Controller
 
         $posts->each(function ($post) {
             if ($post->image) {
-                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                $post->image = Storage::disk('s3')->url($post->image);
             }
             });
 
@@ -317,7 +317,7 @@ class PostController extends Controller
 
         $posts->each(function ($post) {
             if ($post->image) {
-                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                $post->image = Storage::disk('s3')->url($post->image);
             }
             });
     
@@ -373,7 +373,7 @@ class PostController extends Controller
 
         $query->each(function ($post) {
             if ($post->image) {
-                $post->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$post->image);
+                $post->image = Storage::disk('s3')->url($post->image);
             }
             });
 

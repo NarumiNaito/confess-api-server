@@ -22,7 +22,7 @@ class CommentController extends Controller
 
         $comments->each(function ($comment) {
             if ($comment->image) {
-                $comment->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$comment->image);
+                $comment->image = Storage::disk('s3')->url($comment->image);
             }
             });
     
@@ -40,7 +40,7 @@ class CommentController extends Controller
 
         $comments->each(function ($comment) {
             if ($comment->image) {
-                $comment->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$comment->image);
+                $comment->image = Storage::disk('s3')->url($comment->image);
             }
             });
     

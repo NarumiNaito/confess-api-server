@@ -71,7 +71,7 @@ class ForgiveController extends Controller
 
         $forgive->each(function ($q) {
             if ($q->image) {
-                $q->image = Storage::disk('s3')->url(config('filesystems.disks.s3.bucket').'/'.$q->image);
+                $q->image = Storage::disk('s3')->url($q->image);
             }
             });
     

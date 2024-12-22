@@ -51,7 +51,7 @@ return [
             'region' => env('MINIO_DEFAULT_REGION', env('AWS_DEFAULT_REGION')),
             'bucket' => env('AWS_BUCKET'),
             'url' => env('MINIO_URL', env('AWS_URL')),
-            'endpoint' => env('MINIO_ENDPOINT', env('AWS_ENDPOINT')),
+            // 'endpoint' => env('MINIO_ENDPOINT', env('AWS_ENDPOINT')),
             'use_path_style_endpoint' => (bool) env('MINIO_USE_PATH_STYLE_ENDPOINT', env('AWS_USE_PATH_STYLE_ENDPOINT', false)),
         ],
 
