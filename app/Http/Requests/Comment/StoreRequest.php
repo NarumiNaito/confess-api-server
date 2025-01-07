@@ -23,7 +23,6 @@ class StoreRequest extends FormRequest
     {
 
         return [
-            // 'post_id' => ['required', 'integer', 'exists:posts,id'],
             'content' => ['required', 'string']
         ];
     }

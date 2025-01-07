@@ -44,18 +44,17 @@ class NotificationController extends Controller
           'data' => $result->toArray(),
           'last_page' => $notifications->lastPage(),  
       ]);
-          }
+   }
 
-          public function count()
-        {
-        $user = Auth::user();
+   public function count(){
+     $user = Auth::user();
 
-        $count = Notification::where('user_id', $user->id)
-          ->where('is_read', false)
-          ->count();
+     $count = Notification::where('user_id', $user->id)
+        ->where('is_read', false)
+        ->count();
 
-        return response()->json([
-            'count' => $count
-        ]);
-      }
-    }
+     return response()->json([
+        'count' => $count
+     ]);
+   }
+}

@@ -54,14 +54,11 @@ class ForgiveController extends Controller
         return response()->json([
             'message' => '「赦す」を解除しました。'
         ], 200);
-    }
-   
-   
+    }   
    
     public function index($id)
     {
         $user = Auth::user();
-
 
         $forgive = Forgive::where('post_id', $id)
         ->select('forgives.*','user_id','post_id', 'users.name', 'users.image',)

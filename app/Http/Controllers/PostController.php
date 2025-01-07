@@ -49,8 +49,6 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
-
-
     public function homeFulfillment(IndexRequest $request)
     {
     
@@ -105,8 +103,6 @@ class PostController extends Controller
     
         return response()->json($result);
     }
-
-
 
     public function fulfillment(IndexRequest $request)
     {
@@ -171,7 +167,6 @@ class PostController extends Controller
     
         return response()->json($result);
     }
-
     
     public function myIndex(IndexRequest $request)
     {
@@ -290,8 +285,6 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
-   
-
     public function Bookmark(IndexRequest $request)
     {
         $user = Auth::user();
@@ -357,8 +350,6 @@ class PostController extends Controller
         ]);
     }    
 
-
-
     public function show()
     {
         $user_id = Auth::user()->id;
@@ -379,8 +370,6 @@ class PostController extends Controller
 
         return response()->json($query);
     }    
-
-
 
     public function update(UpdateRequest $request)
     {
@@ -404,9 +393,6 @@ class PostController extends Controller
         ]);
     }
 
-
-
-
     public function delete(DeleteRequest $request)
     {
         $user = Auth::user();
@@ -417,8 +403,6 @@ class PostController extends Controller
             'message' => '削除対象の懺悔が存在しません。',
         ], 404);
         }
-
-        // Log::debug(print_r($post));
         
         Comment::where('post_id', '=', $request->id)->delete();
         Forgive::where('post_id', '=', $request->id)->delete();
@@ -430,4 +414,3 @@ class PostController extends Controller
         ]);
     }
 }
-
